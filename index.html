@@ -46,20 +46,26 @@
             background-image: radial-gradient(circle at center, #ffffff 0%, #f5eff0 100%);
         }
 
-        /* الإطار الخارجي المزخرف بالورد الورقي الأبيض والأوراق الذهبية */
+        /* حفر إطارات زوايا ملكية نقيّة بديلة لروابط الصور التالفة */
         body::before, body::after {
             content: '';
             position: fixed;
-            width: 250px;
-            height: 250px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.15;
+            width: 80px;
+            height: 80px;
             pointer-events: none;
             z-index: 1000;
+            opacity: 0.6;
         }
-        body::before { top: 0; left: 0; background-image: url('https://i.imgur.com/w97g3X6.png'); transform: scaleX(-1); }
-        body::after { bottom: 0; right: 0; background-image: url('https://i.imgur.com/w97g3X6.png'); }
+        body::before {
+            top: 25px; left: 25px;
+            border-top: 3px double var(--gold-primary);
+            border-left: 3px double var(--gold-primary);
+        }
+        body::after {
+            bottom: 25px; right: 25px;
+            border-bottom: 3px double var(--gold-primary);
+            border-right: 3px double var(--gold-primary);
+        }
 
         .main-container {
             width: 100%;
@@ -304,12 +310,6 @@
             font-size: 1.1rem;
         }
 
-        .center-bottom-floral {
-            width: 75px;
-            margin-top: 15px;
-            opacity: 0.85;
-        }
-
         /* 🔖 شريط التنقل العلوي الفاخر للتبويبات السفلية */
         .navigation-ribbon-bar {
             width: 100%;
@@ -349,7 +349,7 @@
             transform: translateY(-2px);
         }
 
-        /* 🔲 شبكة تفاصيل الزفاف الثلاثية المحدثة */
+        /* 🔲 شبكة تفاصيل الزفاف الثلاثية */
         .grid-details-row {
             width: 100%;
             display: none;
@@ -385,7 +385,7 @@
             color: var(--gold-primary);
         }
 
-        /* 📸 برواز صور الطفولة والخطوبة الثلاثي المحدث والمثالي للصور المرفوعة */
+        /* 📸 برواز صور الطفولة والخطوبة الثلاثي */
         .triple-photos-frame-container {
             display: flex;
             justify-content: center;
@@ -418,7 +418,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* 📅 مصفوفة النتيجة لشهر يوليو 2026 الحقيقي */
+        /* 📅 مصفوفة النتيجة لشهر يوليو 2026 */
         .calendar-matrix-grid {
             width: 100%;
         }
@@ -449,7 +449,6 @@
             justify-content: center;
             position: relative;
         }
-        /* تحديد وإبراز يوم الفرح 18 بالدائرة الذهبية الملكية */
         .cal-date-number.royal-wedding-highlight-day {
             color: #ffffff;
             font-weight: 700;
@@ -614,7 +613,6 @@
             50% { transform: translateY(6px); opacity: 1; }
         }
 
-        /* المواءمة والتجاوب الكامل مع الهواتف الذكية */
         @media (max-width: 768px) {
             .grid-details-row {
                 grid-template-columns: 1fr;
@@ -645,7 +643,7 @@
             </div>
         </div>
 
-        <!-- 📜 ثانياً: كرت الدعوة الملكي الرئيسي (يظهر بعد الفتح) -->
+        <!-- 📜 ثانياً: كرت الدعوة الملكي الرئيسي -->
         <div class="invitation-card-main" id="invitationCardMain">
             <div class="card-double-frame" id="home-section">
                 
@@ -675,13 +673,14 @@
                     <i class="fa-regular fa-calendar-days"></i> 18 JULY 2026
                 </div>
 
-                <div>
-                    <img src="https://i.imgur.com/w97g3X6.png" class="center-bottom-floral" alt="Floral Line">
+                <!-- فاصل كود نقي بديل للصورة التالفة لمنع أي خطأ مستقبلي -->
+                <div class="diamond-divider-line" style="margin-top: 25px;">
+                    <i class="fa-solid fa-crown"></i>
                 </div>
             </div>
         </div>
 
-        <!-- 🔖 ثالثاً: شريط تبويبات التنقل السريع للقرّاء -->
+        <!-- 🔖 ثالثاً: شريط تبويبات التنقل السريع -->
         <nav class="navigation-ribbon-bar" id="navigationRibbonBar">
             <a href="#home-section" class="nav-item-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
             <a href="#story-section" class="nav-item-btn"><i class="fa-solid fa-heart"></i> قصة حبنا</a>
@@ -690,10 +689,9 @@
             <a href="#rsvp-section" class="nav-item-btn"><i class="fa-solid fa-envelope"></i> الحضور</a>
         </nav>
 
-        <!-- 🔲 رابعاً: شبكة التفاصيل الثلاثية الكبرى (Our Story - The Date - Venue) -->
+        <!-- 🔲 رابعاً: شبكة التفاصيل الثلاثية الكبرى -->
         <div class="grid-details-row" id="gridDetailsRow">
             
-            <!-- العمود الأول: قصة العروسين مع ربط الصور المرفوعة -->
             <div class="details-box-card" id="story-section">
                 <h3 class="column-card-title">Our Story</h3>
                 <div class="triple-photos-frame-container">
@@ -710,7 +708,6 @@
                 <p class="caption-card-txt">Two little hearts, now one beautiful story ♥</p>
             </div>
 
-            <!-- العمود الثاني: نتيجة تقويم الشهر الحقيقي ليوليو 2026 الحقيقي -->
             <div class="details-box-card" id="date-section">
                 <h3 class="column-card-title">The Date</h3>
                 <div class="calendar-matrix-grid">
@@ -730,7 +727,6 @@
                 <p class="caption-card-txt" style="margin-top: 15px;">Mark the day, celebrate the love</p>
             </div>
 
-            <!-- العمود الثالث: معلومات وموقع القاعة الجغرافي -->
             <div class="details-box-card" id="venue-section">
                 <h3 class="column-card-title">Venue</h3>
                 <div class="hall-icon-top">🏛</div>
@@ -746,7 +742,6 @@
 
         </div>
 
-        <!-- خامساً: تذييل الصفحة وقسم تأكيد حضور الضيوف التفاعلي RSVP -->
         <div class="rsvp-footer-action-area" id="rsvp-section">
             <h2 class="rsvp-section-h2">RSVP</h2>
             <p class="rsvp-p-info">We would be honored to celebrate this special day with you</p>
@@ -757,7 +752,7 @@
 
     </div>
 
-    <!-- نافذة منبثقة تفاعلية لتسجيل أسماء المهنئين والمؤكدين للحضور -->
+    <!-- نافذة منبثقة تفاعلية لتسجيل أسماء الحضور -->
     <div class="rsvp-popup-overlay" id="rsvpPopupOverlay">
         <div class="popup-form-box">
             <span class="close-popup-icon-btn" onclick="toggleRSVPModal(false)">×</span>
@@ -777,7 +772,6 @@
         </div>
     </div>
 
-    <!-- كود الجافاسكريبت للتحكم بالأنيميشن الفاخر وإظهار المحتوى بسلاسة -->
     <script>
         function executeEnvelopeOpening() {
             const flap = document.getElementById('envelopeFlapAnimation');
