@@ -5,26 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdelaziz & Omnia Wedding Invitation</title>
     
+    <!-- Google Fonts for Luxury Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* --- Luxury Theme Variables --- */
         :root {
-            --gold-gradient: linear-gradient(135deg, #b38728, #fbf5b7, #da1b60, #b38728, #aa771c);
             --royal-gold: #c5a059;
             --dark-gold: #8a6f3e;
             --light-cream: #fdfbf7;
-            --pure-white: #ffffff;
+            --envelope-bg: #f4ebd4;
             --bg-dark: #0d0d0d;
-            --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.3);
-            --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-premium: 0 30px 60px rgba(0, 0, 0, 0.4);
+            --transition-bounce: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-smooth: all 0.6s ease-in-out;
         }
 
-        /* --- Global Reset & Background --- */
         * {
             margin: 0;
             padding: 0;
@@ -33,19 +34,22 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            background-image: radial-gradient(circle at center, #1e1e1e 0%, #050505 100%);
             color: var(--light-cream);
             font-family: 'Playfair Display', 'Amiri', serif;
             overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
 
-        /* --- Language Switcher Sticky Bar --- */
+        /* --- Language Switcher --- */
         .lang-switcher {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
-            left: auto;
             z-index: 1000;
         }
         
@@ -55,13 +59,13 @@
         }
 
         .lang-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--royal-gold);
             color: var(--royal-gold);
-            padding: 10px 20px;
+            padding: 10px 22px;
             cursor: pointer;
-            font-family: inherit;
             font-weight: bold;
+            font-family: inherit;
             transition: var(--transition-smooth);
             backdrop-filter: blur(5px);
             border-radius: 4px;
@@ -73,420 +77,389 @@
             box-shadow: 0 0 15px var(--royal-gold);
         }
 
-        /* --- Main Interactive Container --- */
-        .invitation-container {
+        /* --- Main App Container --- */
+        .invitation-main-container {
+            width: 100%;
+            max-width: 700px;
+            padding: 100px 20px 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
         }
 
-        /* --- 3D Envelope Wrapper --- */
-        .envelope-wrapper {
-            position: relative;
-            width: 450px;
-            height: 320px;
-            perspective: 1500px;
-            cursor: pointer;
-            margin-bottom: 50px;
-            transition: var(--transition-smooth);
-        }
-
-        @media (max-width: 500px) {
-            .envelope-wrapper {
-                width: 90vw;
-                height: 64vw;
-            }
-        }
-
-        .envelope {
+        /* --- Bulletproof 3D Envelope Container --- */
+        .envelope-scene {
             position: relative;
             width: 100%;
-            height: 100%;
-            background-color: #f7f4eb;
-            box-shadow: var(--shadow-premium);
-            transform-style: preserve-3d;
+            max-width: 480px;
+            height: 330px;
+            perspective: 1500px;
+            margin-bottom: 40px;
             transition: var(--transition-smooth);
-            border: 2px solid rgba(197, 160, 89, 0.3);
         }
 
-        /* Envelope Flap (Top Closure) */
-        .envelope-flap {
+        /* When the envelope is opened, we reduce its height dynamically to allow the card below it to stack cleanly */
+        .envelope-scene.is-opened {
+            height: 0;
+            margin-bottom: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8) translateY(-100px);
+        }
+
+        .envelope-box {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: var(--envelope-bg);
+            border-radius: 6px;
+            box-shadow: var(--shadow-premium);
+            transform-style: preserve-3d;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+        }
+
+        .envelope-box:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        /* Top Flap Component */
+        .flap-top {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #eae6da;
+            background: #e8ddbe;
             clip-path: polygon(0 0, 50% 55%, 100% 0);
             transform-origin: top;
-            z-index: 4;
-            transition: var(--transition-smooth);
-            border-bottom: 1px solid var(--royal-gold);
+            z-index: 3;
+            transition: var(--transition-bounce);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.4);
         }
 
-        /* Wax Seal Button */
-        .wax-seal {
+        /* Wax Seal */
+        .wax-seal-btn {
             position: absolute;
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #dfb76c 0%, #a1782f 100%);
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle, #dfb76c 0%, #9a7127 100%);
             border-radius: 50%;
-            z-index: 5;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 4;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--light-cream);
-            font-size: 20px;
+            color: #fff;
+            font-size: 22px;
+            border: 2px dashed rgba(255,255,255,0.3);
             transition: var(--transition-smooth);
-            border: 2px dashed rgba(255,255,255,0.4);
         }
 
-        .envelope:hover .wax-seal {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        /* Front Pockets of Envelope */
-        .envelope-pockets {
+        /* Front Layer Pockets */
+        .envelope-pockets-front {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .envelope-pockets::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fdfbf7;
-            clip-path: polygon(0 100%, 50% 45%, 100% 100%);
-            border-top: 1px solid rgba(197, 160, 89, 0.4);
-        }
-
-        /* --- The Interactive Sliding Invitation Card --- */
-        .invitation-card {
-            position: absolute;
-            top: 5%;
-            left: 5%;
-            width: 90%;
-            height: 90%;
-            background: var(--light-cream);
-            color: #2b2b2b;
-            padding: 30px;
-            border: 3px double var(--royal-gold);
             z-index: 2;
-            transition: var(--transition-smooth);
-            opacity: 0.8;
-            transform: translateY(0);
-            box-shadow: inset 0 0 40px rgba(197, 160, 89, 0.1);
-            overflow: hidden;
+            pointer-events: none;
+            clip-path: polygon(0 100%, 50% 52%, 100% 100%);
+            background: var(--light-cream);
+            border-top: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 0 0 6px 6px;
         }
 
-        /* --- Envelope Animation States (When Opened) --- */
-        .envelope-wrapper.opened .envelope-flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope-wrapper.opened .wax-seal {
-            display: none;
-        }
-
-        .envelope-wrapper.opened .invitation-card {
-            position: relative;
-            width: 100%;
-            height: auto;
-            max-width: 650px;
-            opacity: 1;
-            z-index: 10;
-            transform: translateY(0) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            margin-top: 50px;
-            border-radius: 4px;
-            cursor: default;
-        }
-
-        .envelope-wrapper.opened {
-            height: auto;
-            width: 100%;
-            max-width: 650px;
-            cursor: default;
-        }
-
-        .envelope-wrapper.opened .envelope {
-            background: transparent;
-            box-shadow: none;
-            border: none;
-        }
-
-        .envelope-wrapper.opened .envelope-pockets {
-            display: none;
-        }
-
-        /* --- Hidden Content Sections (Fade in after opening) --- */
-        .hidden-content {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 1s ease, max-height 1.5s ease;
+        /* Hint/Label for user on envelope */
+        .envelope-hint {
+            position: absolute;
+            bottom: 20px;
             width: 100%;
             text-align: center;
+            color: var(--dark-gold);
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 5;
+            letter-spacing: 1px;
+            font-family: 'Amiri', serif;
         }
 
-        .envelope-wrapper.opened + .hidden-content {
+        /* --- Premium Invitation Card (Hidden initially, fades/slides in seamlessly) --- */
+        .main-card-view {
+            width: 100%;
+            background: var(--light-cream);
+            color: #222;
+            border: 4px double var(--royal-gold);
+            border-radius: 8px;
+            padding: 35px 25px;
+            box-shadow: var(--shadow-premium);
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+            pointer-events: none;
+            transition: all 1.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+            display: none;
+        }
+
+        /* Active state for card view */
+        .main-card-view.revealed {
             opacity: 1;
-            max-height: 5000px;
-            margin-top: 40px;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            display: block;
         }
 
-        /* --- Typography & Decorative Elements --- */
-        .royal-border {
-            border: 1px solid var(--royal-gold);
-            padding: 20px;
+        /* Inner Content Aesthetics */
+        .royal-inner-frame {
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            padding: 25px 15px;
+            text-align: center;
             position: relative;
         }
 
         .quran-verse {
             font-family: 'Amiri', serif;
-            font-size: 1.35rem;
-            color: #3d3d3d;
+            font-size: 1.3rem;
+            color: #333;
             line-height: 2;
             margin-bottom: 25px;
             font-weight: bold;
-            position: relative;
-            padding: 10px 0;
         }
 
         .quran-verse::before, .quran-verse::after {
-            content: '❖';
+            content: ' ❖ ';
             color: var(--royal-gold);
-            margin: 0 10px;
-            font-size: 0.9rem;
         }
 
         .couple-names {
             font-family: 'Great Vibes', 'Amiri', cursive;
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             background: linear-gradient(to right, #aa771c, #fbf5b7, #aa771c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 20px 0;
+            margin: 15px 0;
             font-weight: bold;
         }
 
         html[dir="ltr"] .couple-names {
             font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
+            font-size: 3.8rem;
         }
 
         .invitation-text {
             font-size: 1.1rem;
-            color: #555555;
+            color: #444;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .details-section {
+        .details-grid {
             margin: 25px 0;
-            padding: 15px 0;
+            padding: 20px 0;
             border-top: 1px solid rgba(197, 160, 89, 0.3);
             border-bottom: 1px solid rgba(197, 160, 89, 0.3);
         }
 
-        .detail-item {
+        .detail-row {
             margin: 12px 0;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: #111;
         }
 
-        .detail-item i {
+        .detail-row i {
             color: var(--royal-gold);
-            margin: 0 8px;
+            margin: 0 10px;
+            width: 20px;
         }
 
-        /* --- Luxury Calendar (July 2026) --- */
-        .calendar-container {
-            max-width: 350px;
-            margin: 30px auto;
-            padding: 15px;
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            background: rgba(255, 255, 255, 0.6);
-        }
-
-        .calendar-month {
-            font-family: 'Cinzel Decorative', serif;
-            color: var(--dark-gold);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
+        /* --- RSVP Premium Action Button --- */
+        .rsvp-trigger-action-btn {
+            background: linear-gradient(135deg, #aa771c 0%, #fbf5b7 50%, #aa771c 100%);
+            color: #111;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.1rem;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: var(--transition-smooth);
+            border-radius: 4px;
+            margin-top: 15px;
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
+        .rsvp-trigger-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(197, 160, 89, 0.4);
+            letter-spacing: 1px;
+        }
+
+        /* --- Secondary Interactive Sections (Fade in with Card) --- */
+        .extra-sections-view {
+            width: 100%;
+            margin-top: 40px;
+            opacity: 0;
+            display: none;
+            transition: opacity 1s ease-in-out;
             text-align: center;
         }
 
-        .calendar-day-name {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #777;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #ddd;
+        .extra-sections-view.revealed {
+            opacity: 1;
+            display: block;
         }
 
-        .calendar-day {
+        /* --- July 2026 Calendar Grid --- */
+        .calendar-box-card {
+            max-width: 360px;
+            margin: 0 auto 50px auto;
+            padding: 20px;
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 6px;
+        }
+
+        .calendar-header-title {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--royal-gold);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .calendar-days-layout {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .calendar-weekday-lbl {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--royal-gold);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calendar-date-cell {
             font-size: 1rem;
             padding: 6px;
-            color: #333;
+            color: var(--light-cream);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
 
-        /* Golden Heart for day 18 */
-        .wedding-day-highlight {
+        /* Special Heart Target Indicator */
+        .wedding-date-highlight-heart {
             font-weight: bold;
             color: #000;
             z-index: 1;
         }
 
-        .wedding-day-highlight::before {
+        .wedding-date-highlight-heart::before {
             content: '\f004';
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
             position: absolute;
-            font-size: 2.1rem;
-            color: rgba(197, 160, 89, 0.25);
-            text-shadow: 0 0 2px var(--royal-gold);
+            font-size: 2.2rem;
+            color: var(--royal-gold);
             z-index: -1;
             transform: scale(1.1);
         }
 
-        /* --- Premium Animated RSVP Button --- */
-        .rsvp-trigger-btn {
-            background: linear-gradient(135deg, #aa771c 0%, #fbf5b7 50%, #aa771c 100%);
-            color: #111;
-            border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: var(--transition-smooth);
-            margin-top: 20px;
-            border-radius: 4px;
-        }
-
-        .rsvp-trigger-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
-            letter-spacing: 2px;
-        }
-
-        /* --- Photo Gallery Section --- */
-        .gallery-section {
-            margin: 60px auto;
-            max-width: 600px;
+        /* --- Image Gallery Section --- */
+        .gallery-box-card {
             width: 100%;
-            padding: 0 20px;
+            margin-bottom: 40px;
         }
 
-        .gallery-title {
+        .gallery-section-title {
             font-family: 'Cinzel Decorative', serif;
             color: var(--royal-gold);
-            margin-bottom: 30px;
-            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
         }
 
-        .gallery-slider {
+        .gallery-viewport-slider {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 420px;
             overflow: hidden;
             border: 4px double var(--royal-gold);
-            border-radius: 15px;
+            border-radius: 8px;
             box-shadow: var(--shadow-premium);
         }
 
         @media (max-width: 500px) {
-            .gallery-slider { height: 280px; }
+            .gallery-viewport-slider { height: 290px; }
         }
 
-        .slide {
+        .gallery-slide-item {
             position: absolute;
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 0.8s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #000;
         }
 
-        .slide.active {
+        .gallery-slide-item.active-slide {
             opacity: 1;
+            z-index: 2;
         }
 
-        .slide img {
+        .gallery-slide-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .slider-arrow {
+        .slider-control-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             border: 1px solid var(--royal-gold);
             color: var(--royal-gold);
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 5;
+            z-index: 10;
             transition: var(--transition-smooth);
         }
 
-        .slider-arrow:hover {
+        .slider-control-nav:hover {
             background: var(--royal-gold);
             color: #000;
         }
 
-        .arrow-prev { left: 15px; }
-        .arrow-next { right: 15px; }
+        .nav-left-btn { left: 15px; }
+        .nav-right-btn { right: 15px; }
 
-        /* --- RSVP Popup Modal --- */
-        .rsvp-modal {
+        /* --- RSVP Screen Overlay Modal --- */
+        .rsvp-overlay-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -495,70 +468,71 @@
             transition: var(--transition-smooth);
         }
 
-        .rsvp-modal.active {
+        .rsvp-overlay-modal.modal-visible {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .modal-content {
+        .modal-body-container {
             background: var(--light-cream);
             color: #2b2b2b;
-            padding: 40px;
+            padding: 40px 30px;
             width: 90%;
-            max-width: 450px;
+            max-width: 440px;
             border: 3px double var(--royal-gold);
             border-radius: 8px;
             position: relative;
             text-align: center;
-            transform: scale(0.8);
-            transition: var(--transition-smooth);
+            transform: scale(0.85);
+            transition: var(--transition-bounce);
         }
 
-        .rsvp-modal.active .modal-content {
+        .rsvp-overlay-modal.modal-visible .modal-body-container {
             transform: scale(1);
         }
 
-        .close-modal {
+        .modal-close-trigger {
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 24px;
-            color: #777;
+            font-size: 26px;
+            color: #666;
             cursor: pointer;
             transition: color 0.3s;
         }
 
-        html[dir="ltr"] .close-modal {
+        html[dir="ltr"] .modal-close-trigger {
             right: auto;
             left: 15px;
         }
 
-        .close-modal:hover { color: var(--royal-gold); }
+        .modal-close-trigger:hover { color: var(--royal-gold); }
 
-        .modal-title {
+        .modal-main-title {
             font-family: 'Cinzel Decorative', serif;
             color: var(--dark-gold);
             margin-bottom: 25px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
         }
 
-        .form-group {
+        .input-form-group {
             margin-bottom: 20px;
             text-align: initial;
         }
 
-        .form-group label {
+        .input-form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
             font-size: 0.95rem;
-            color: #444;
+            color: #333;
         }
 
-        .form-group input {
+        .input-form-group input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #bbb;
             background: #fff;
             font-family: inherit;
             font-size: 1rem;
@@ -566,113 +540,129 @@
             outline: none;
         }
 
-        .form-group input:focus {
+        .input-form-group input:focus {
             border-color: var(--royal-gold);
-            box-shadow: 0 0 5px rgba(197, 160, 89, 0.5);
+            box-shadow: 0 0 6px rgba(197, 160, 89, 0.4);
         }
 
-        .submit-rsvp-btn {
+        .modal-submit-btn {
             background: var(--bg-dark);
             color: var(--royal-gold);
             border: 1px solid var(--royal-gold);
             width: 100%;
-            padding: 12px;
-            font-size: 1.1rem;
+            padding: 13px;
+            font-size: 1.05rem;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition-smooth);
-            margin-top: 10px;
             border-radius: 4px;
+            margin-top: 10px;
         }
 
-        .submit-rsvp-btn:hover {
+        .modal-submit-btn:hover {
             background: var(--royal-gold);
             color: var(--bg-dark);
         }
 
-        /* Success Message styling inside popup */
-        .success-msg {
+        .toast-success-notification {
             color: #27ae60;
             font-weight: bold;
             margin-top: 15px;
             display: none;
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
 
+    <!-- Language Selector Toolbar Trigger -->
     <div class="lang-switcher">
-        <button class="lang-btn" onclick="toggleLanguage()">English</button>
+        <button class="lang-btn" onclick="toggleLanguageSystem()">English</button>
     </div>
 
-    <div class="invitation-container">
+    <!-- Main Structural Interface Container -->
+    <div class="invitation-main-container">
 
-        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
-            <div class="envelope">
-                <div class="envelope-flap"></div>
-                <div class="wax-seal">
-                    <i class="fa-solid fa-heart"></i>
+        <!-- 3D Envelope Trigger Field -->
+        <div class="envelope-scene" id="envelopeScene" onclick="triggerEnvelopeOpenAnimation()">
+            <div class="envelope-box">
+                <div class="flap-top" id="flapTop"></div>
+                <div class="wax-seal-btn">
+                    <i class="fa-solid fa-envelope-open-text"></i>
                 </div>
-                <div class="envelope-pockets"></div>
+                <div class="envelope-pockets-front"></div>
+                <div class="envelope-hint" id="text-envelope-hint">إضغط لفتح الدعوة الملكية</div>
+            </div>
+        </div>
+
+        <!-- Corrected Main Card Architecture View (Renders stacked completely clean) -->
+        <div class="main-card-view" id="mainCardView">
+            <div class="royal-inner-frame">
                 
-                <div class="invitation-card" id="invitationCard">
-                    <div class="royal-border">
-                        <div class="quran-verse" id="text-verse">
-                            "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
-                        </div>
+                <!-- Calligraphy Quran Section -->
+                <div class="quran-verse" id="text-verse">
+                    "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
+                </div>
 
-                        <div class="couple-names">Abdelaziz & Omnia</div>
+                <!-- Core Dynamic Titles -->
+                <div class="couple-names">Abdelaziz & Omnia</div>
 
-                        <div class="invitation-text" id="text-invite">
-                            يتشرف عائلتا عبد العزيز وأمنية بدعوتكم لحضور حفل الزفاف السعيد ومشاركتنا فرحة العمر.
-                        </div>
+                <!-- Main Body Script Context -->
+                <div class="invitation-text" id="text-invite">
+                    يتشرف عائلتا عبد العزيز وأمنية بدعوتكم لحضور حفل الزفاف السعيد ومشاركتنا فرحة العمر.
+                </div>
 
-                        <div class="details-section">
-                            <div class="detail-item">
-                                <i class="fa-solid fa-calendar-days"></i>
-                                <span id="text-date-string">السبت، 18 يوليو 2026</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fa-solid fa-clock"></i>
-                                <span id="text-time-string">الساعة السابعة مساءً</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <strong id="text-venue">Louvre Heights - Royal Hall</strong>
-                            </div>
-                            <div class="detail-item" style="font-size:0.95rem; color:#666;" id="text-address">
-                                دار الأسلحة والذخيرة، صلاح سالم، القاهرة
-                            </div>
-                        </div>
-
-                        <button class="rsvp-trigger-btn" id="text-rsvp-btn" onclick="openRSVP(event)">تأكيد الحضور RSVP</button>
+                <!-- Event Details Row Elements -->
+                <div class="details-grid">
+                    <div class="detail-row">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span id="text-date-string">السبت، 18 يوليو 2026</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fa-solid fa-clock"></i>
+                        <span id="text-time-string">الساعة السابعة مساءً</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fa-solid fa-hotel"></i>
+                        <strong id="text-venue">Louvre Heights - Royal Hall</strong>
+                    </div>
+                    <div class="detail-row" style="font-size:0.95rem; color:#555;" id="text-address">
+                        دار الأسلحة والذخيرة، صلاح سالم، القاهرة
                     </div>
                 </div>
+
+                <!-- RSVP Action Terminal Fire Button -->
+                <button class="rsvp-trigger-action-btn" id="text-rsvp-btn" onclick="fireRSVPModal(event)">تأكيد الحضور RSVP</button>
             </div>
         </div>
 
-        <div class="hidden-content">
+        <!-- Custom Extra Interactive Modules Component -->
+        <div class="extra-sections-view" id="extraSectionsView">
             
-            <div class="calendar-container">
-                <div class="calendar-month" id="text-month-year">يوليو 2026</div>
-                <div class="calendar-grid" id="calendarGrid">
-                    </div>
+            <!-- Real Calendar Interface Widget Grid -->
+            <div class="calendar-box-card">
+                <div class="calendar-header-title" id="text-month-year">يوليو 2026</div>
+                <div class="calendar-days-layout" id="calendarDaysLayout">
+                    <!-- Loaded dynamically via Script runtime system -->
+                </div>
             </div>
 
-            <div class="gallery-section">
-                <h2 class="gallery-title" id="text-gallery-title">معرض الصور</h2>
-                <div class="gallery-slider">
-                    <button class="slider-arrow arrow-prev" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="slider-arrow arrow-next" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            <!-- Premium Multi-Image Dynamic Showcase Stage -->
+            <div class="gallery-box-card">
+                <h2 class="gallery-section-title" id="text-gallery-title">معرض الصور</h2>
+                <div class="gallery-viewport-slider">
+                    <button class="slider-control-nav nav-left-btn" onclick="rotateSlideIndex(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="slider-control-nav nav-right-btn" onclick="rotateSlideIndex(1)"><i class="fa-solid fa-chevron-right"></i></button>
                     
-                    <div class="slide active">
-                        <img src="engagement.jpg" alt="Engagement Image">
+                    <!-- Direct Reference link hooks connecting repository imagery elements -->
+                    <div class="gallery-slide-item active-slide">
+                        <img src="engagement.jpg" alt="Engagement Image Portfolio Showcase">
                     </div>
-                    <div class="slide">
-                        <img src="child-abdelaziz.jpg.png" alt="Abdelaziz Childhood Image">
+                    <div class="gallery-slide-item">
+                        <img src="child-abdelaziz.jpg.png" alt="Abdelaziz Childhood Portrait Showcase">
                     </div>
-                    <div class="slide">
-                        <img src="child-omnia.jpg.png" alt="Omnia Childhood Image">
+                    <div class="gallery-slide-item">
+                        <img src="child-omnia.jpg.png" alt="Omnia Childhood Portrait Showcase">
                     </div>
                 </div>
             </div>
@@ -680,35 +670,38 @@
         </div>
     </div>
 
-    <div class="rsvp-modal" id="rsvpModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeRSVP()">&times;</span>
-            <h3 class="modal-title" id="text-modal-title">تأكيد حضور الحفل</h3>
+    <!-- Modal Form Handling Unit Panel -->
+    <div class="rsvp-overlay-modal" id="rsvpOverlayModal">
+        <div class="modal-body-container">
+            <span class="modal-close-trigger" onclick="dismissRSVPModal()">&times;</span>
+            <h3 class="modal-main-title" id="text-modal-title">تأكيد حضور الحفل</h3>
             
-            <form id="rsvpForm" onsubmit="submitRSVPForm(event)">
-                <div class="form-group">
-                    <label for="guestName" id="text-label-name">الاسم الكريم:</label>
-                    <input type="text" id="guestName" required>
+            <form id="rsvpInternalForm" onsubmit="executeRSVPSubmissionPipeline(event)">
+                <div class="input-form-group">
+                    <label for="guestNameInput" id="text-label-name">الاسم الكريم:</label>
+                    <input type="text" id="guestNameInput" required>
                 </div>
-                <div class="form-group">
-                    <label for="guestCount" id="text-label-count">عدد الأفراد المرافقين:</label>
-                    <input type="number" id="guestCount" min="1" max="10" value="1" required>
+                <div class="input-form-group">
+                    <label for="guestCountInput" id="text-label-count">عدد الأفراد المرافقين:</label>
+                    <input type="number" id="guestCountInput" min="1" max="10" value="1" required>
                 </div>
-                <button type="submit" class="submit-rsvp-btn" id="text-submit-btn">تأكيد الحضور بصورة نهائية</button>
-                <div class="success-msg" id="rsvpSuccess">تم تسجيل حضوركم بنجاح. ننتظركم بكل حب!</div>
+                <button type="submit" class="modal-submit-btn" id="text-submit-btn">تأكيد الحضور بصورة نهائية</button>
+                <div class="toast-success-notification" id="rsvpSuccessToast">تم تسجيل حضوركم بنجاح. ننتظركم بكل حب!</div>
             </form>
         </div>
     </div>
 
+    <!-- Application Controller Logic Script Execution Engine -->
     <script>
-        // Current Runtime Tracking Globals Setup
-        let currentLang = 'ar';
-        let currentSlideIdx = 0;
+        // System Config Data States
+        let systemCurrentLang = 'ar';
+        let internalSlideIndex = 0;
 
-        // Structured Internationalization Data Dictionary Array 
-        const dictionary = {
+        // Multilingual Translation Records
+        const langPackDictionary = {
             ar: {
                 switchBtn: "English",
+                envelopeHint: "إضغط لفتح الدعوة الملكية",
                 verse: `"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"`,
                 invite: "يتشرف عائلتا عبد العزيز وأمنية بدعوتكم لحضور حفل الزفاف السعيد ومشاركتنا فرحة العمر.",
                 dateStr: "السبت، 18 يوليو 2026",
@@ -727,6 +720,7 @@
             },
             en: {
                 switchBtn: "العربية",
+                envelopeHint: "Click to Open Royal Invitation",
                 verse: `"And among His Signs is this, that He created for you mates from among yourselves, that ye may dwell in tranquillity with them, and He has put love and mercy between your hearts."`,
                 invite: "Together with their honorable families, Abdelaziz & Omnia cordially invite you to celebrate their premium wedding ceremony.",
                 dateStr: "Saturday, July 18, 2026",
@@ -745,128 +739,144 @@
             }
         };
 
-        // Interactive Envelope Open Trigger Execution Routine
-        function openEnvelope() {
-            const wrapper = document.getElementById('envelopeWrapper');
-            if(!wrapper.classList.contains('opened')) {
-                wrapper.classList.add('opened');
-                // Build dynamic calendar visualization exactly synchronized post-opening execution timeline 
-                renderCalendar();
-            }
+        // Flawless Step-by-Step Envelope Animations Implementation Control
+        function triggerEnvelopeOpenAnimation() {
+            const flap = document.getElementById('flapTop');
+            const scene = document.getElementById('envelopeScene');
+            const cardView = document.getElementById('mainCardView');
+            const extrasView = document.getElementById('extraSectionsView');
+
+            // 1. Rotate the top flap 3D upwards open 
+            flap.style.transform = 'rotateX(180deg)';
+            flap.style.zIndex = '1';
+
+            // 2. Wait slightly for flap rotation, then trigger card slide layout transition
+            setTimeout(() => {
+                scene.classList.add('is-opened');
+                
+                // Show card & calendar elements cleanly inside document sequence view
+                cardView.style.display = 'block';
+                extrasView.style.display = 'block';
+                
+                // Redraw calendar interface matching language setting accurately
+                executeCalendarRenderer();
+
+                setTimeout(() => {
+                    cardView.classList.add('revealed');
+                    extrasView.classList.add('revealed');
+                }, 50);
+
+            }, 600);
         }
 
-        // Language Layout Switch Logic Engine Routine
-        function toggleLanguage() {
-            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+        // Translation Controls Interface Sync Routines
+        function toggleLanguageSystem() {
+            systemCurrentLang = (systemCurrentLang === 'ar') ? 'en' : 'ar';
             
-            // Set dynamic Document Layout Flow Properties
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+            document.documentElement.lang = systemCurrentLang;
+            document.documentElement.dir = (systemCurrentLang === 'ar') ? 'rtl' : 'ltr';
 
-            // Mapping Text String Conversions Across Live Targets
-            document.querySelector('.lang-btn').innerText = dictionary[currentLang].switchBtn;
-            document.getElementById('text-verse').innerText = dictionary[currentLang].verse;
-            document.getElementById('text-invite').innerText = dictionary[currentLang].invite;
-            document.getElementById('text-date-string').innerText = dictionary[currentLang].dateStr;
-            document.getElementById('text-time-string').innerText = dictionary[currentLang].timeStr;
-            document.getElementById('text-venue').innerText = dictionary[currentLang].venue;
-            document.getElementById('text-address').innerText = dictionary[currentLang].address;
-            document.getElementById('text-rsvp-btn').innerText = dictionary[currentLang].rsvpBtn;
-            document.getElementById('text-gallery-title').innerText = dictionary[currentLang].galleryTitle;
-            document.getElementById('text-month-year').innerText = dictionary[currentLang].monthYear;
-            document.getElementById('text-modal-title').innerText = dictionary[currentLang].modalTitle;
-            document.getElementById('text-label-name').innerText = dictionary[currentLang].labelName;
-            document.getElementById('text-label-count').innerText = dictionary[currentLang].labelCount;
-            document.getElementById('text-submit-btn').innerText = dictionary[currentLang].submitBtn;
+            // Mapping Object String Values Directly Across Target Identifiers
+            document.querySelector('.lang-btn').innerText = langPackDictionary[systemCurrentLang].switchBtn;
+            document.getElementById('text-envelope-hint').innerText = langPackDictionary[systemCurrentLang].envelopeHint;
+            document.getElementById('text-verse').innerText = langPackDictionary[systemCurrentLang].verse;
+            document.getElementById('text-invite').innerText = langPackDictionary[systemCurrentLang].invite;
+            document.getElementById('text-date-string').innerText = langPackDictionary[systemCurrentLang].dateStr;
+            document.getElementById('text-time-string').innerText = langPackDictionary[systemCurrentLang].timeStr;
+            document.getElementById('text-venue').innerText = langPackDictionary[systemCurrentLang].venue;
+            document.getElementById('text-address').innerText = langPackDictionary[systemCurrentLang].address;
+            document.getElementById('text-rsvp-btn').innerText = langPackDictionary[systemCurrentLang].rsvpBtn;
+            document.getElementById('text-gallery-title').innerText = langPackDictionary[systemCurrentLang].galleryTitle;
+            document.getElementById('text-month-year').innerText = langPackDictionary[systemCurrentLang].monthYear;
+            document.getElementById('text-modal-title').innerText = langPackDictionary[systemCurrentLang].modalTitle;
+            document.getElementById('text-label-name').innerText = langPackDictionary[systemCurrentLang].labelName;
+            document.getElementById('text-label-count').innerText = langPackDictionary[systemCurrentLang].labelCount;
+            document.getElementById('text-submit-btn').innerText = langPackDictionary[systemCurrentLang].submitBtn;
 
-            // Re-render Calendar to catch localization context modification
-            if(document.getElementById('envelopeWrapper').classList.contains('opened')) {
-                renderCalendar();
+            // Update calendar layout configuration context on language switches
+            if(document.getElementById('mainCardView').classList.contains('revealed')) {
+                executeCalendarRenderer();
             }
         }
 
-        // Execution Engine logic to mathematically generate 2026 July Calendar safely
-        function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
+        // Highly Stable Dynamic Calendar Matrix Calculations Factory Routine
+        function executeCalendarRenderer() {
+            const layoutGrid = document.getElementById('calendarDaysLayout');
+            layoutGrid.innerHTML = '';
 
-            // Add Day Headers dynamically using system dict settings
-            dictionary[currentLang].days.forEach(dName => {
-                const headerNode = document.createElement('div');
-                headerNode.className = 'calendar-day-name';
-                headerNode.innerText = dName;
-                grid.appendChild(headerNode);
+            // Map grid day tracking headers setup
+            langPackDictionary[systemCurrentLang].days.forEach(dayTitle => {
+                const dayHeaderNode = document.createElement('div');
+                dayHeaderNode.className = 'calendar-weekday-lbl';
+                dayHeaderNode.innerText = dayTitle;
+                layoutGrid.appendChild(dayHeaderNode);
             });
 
-            // July 1, 2026 starts precisely on a Wednesday (Index 3 alignment mapping)
-            const paddingOffsetDays = 3; 
-            const totalDaysInJuly = 31;
+            // July 1st, 2026 starts precisely on index position 3 (Wednesday alignment)
+            const paddingDaysOffset = 3; 
+            const maxDaysJulyMonth = 31;
 
-            // Append leading empty elements to balance calendar layout positioning
-            for (let i = 0; i < paddingOffsetDays; i++) {
-                const blankNode = document.createElement('div');
-                grid.appendChild(blankNode);
+            // Generate alignment spatial offset fillers
+            for (let i = 0; i < paddingDaysOffset; i++) {
+                const fillerSpace = document.createElement('div');
+                layoutGrid.appendChild(fillerSpace);
             }
 
-            // Fill active month date nodes structural block elements
-            for (let dayNum = 1; dayNum <= totalDaysInJuly; dayNum++) {
-                const dayNode = document.createElement('div');
-                dayNode.className = 'calendar-day';
-                dayNode.innerText = (currentLang === 'ar') ? dayNum.toLocaleString('ar-EG') : dayNum;
+            // Draw month active digital numeric records cells structure mapping
+            for (let cellDateNum = 1; cellDateNum <= maxDaysJulyMonth; cellDateNum++) {
+                const dateCellNode = document.createElement('div');
+                dateCellNode.className = 'calendar-date-cell';
+                dateCellNode.innerText = (systemCurrentLang === 'ar') ? cellDateNum.toLocaleString('ar-EG') : cellDateNum;
 
-                // Explicit target match execution overlaying the 18th element instance
-                if(dayNum === 18) {
-                    dayNode.classList.add('wedding-day-highlight');
+                // Bind golden wedding heart indicator overlay target matching day 18 precisely
+                if(cellDateNum === 18) {
+                    dateCellNode.classList.add('wedding-date-highlight-heart');
                 }
 
-                grid.appendChild(dayNode);
+                layoutGrid.appendChild(dateCellNode);
             }
         }
 
-        // Carousel Slider Navigation Controller Core
-        function changeSlide(direction) {
-            const slides = document.querySelectorAll('.slide');
-            slides[currentSlideIdx].classList.remove('active');
+        // Image Slideshow Navigation Pipeline
+        function rotateSlideIndex(stepOffset) {
+            const slideElementsList = document.querySelectorAll('.gallery-slide-item');
+            slideElementsList[internalSlideIndex].classList.remove('active-slide');
             
-            currentSlideIdx += direction;
-            if (currentSlideIdx >= slides.length) { currentSlideIdx = 0; }
-            if (currentSlideIdx < 0) { currentSlideIdx = slides.length - 1; }
+            internalSlideIndex += stepOffset;
+            if (internalSlideIndex >= slideElementsList.length) { internalSlideIndex = 0; }
+            if (internalSlideIndex < 0) { internalSlideIndex = slideElementsList.length - 1; }
             
-            slides[currentSlideIdx].classList.add('active');
+            slideElementsList[internalSlideIndex].classList.add('active-slide');
         }
 
-        // RSVP Overlay Interfacing Controller Routines
-        function openRSVP(event) {
-            event.stopPropagation(); // Shield propagation bubble from causing layout conflicts
-            document.getElementById('rsvpModal').classList.add('active');
+        // Modal Action Controllers Engine
+        function fireRSVPModal(clickEvent) {
+            clickEvent.stopPropagation();
+            document.getElementById('rsvpOverlayModal').classList.add('modal-visible');
         }
 
-        function closeRSVP() {
-            document.getElementById('rsvpModal').classList.remove('active');
-            // Flush submission forms status on hide execution steps
-            document.getElementById('rsvpForm').reset();
-            document.getElementById('rsvpSuccess').style.display = 'none';
+        function dismissRSVPModal() {
+            document.getElementById('rsvpOverlayModal').classList.remove('modal-visible');
+            document.getElementById('rsvpInternalForm').reset();
+            document.getElementById('rsvpSuccessToast').style.display = 'none';
         }
 
-        // Forms Processing Pipeline System Engineering Simulation Engine Interceptor
-        function submitRSVPForm(event) {
-            event.preventDefault();
+        // RSVP Internal Process Forms Submission Terminal
+        function executeRSVPSubmissionPipeline(formSubmitEvent) {
+            formSubmitEvent.preventDefault();
             
-            const guestName = document.getElementById('guestName').value;
-            const guestCount = document.getElementById('guestCount').value;
+            const clientGuestName = document.getElementById('guestNameInput').value;
+            const clientGuestCount = document.getElementById('guestCountInput').value;
 
-            // Log details payload inside memory container context tracking matrix
-            console.log("RSVP Submission Confirmed Payload Logged Safely:", { guestName, guestCount });
+            console.log("Internal Core Verified Secured RSVP Payload Package:", { clientGuestName, clientGuestCount });
 
-            // Display custom successfully completed UI alert confirmations directly internally
-            const successTextNode = document.getElementById('rsvpSuccess');
-            successTextNode.innerText = dictionary[currentLang].success;
-            successTextNode.style.display = 'block';
+            const successToastNode = document.getElementById('rsvpSuccessToast');
+            successToastNode.innerText = langPackDictionary[systemCurrentLang].success;
+            successToastNode.style.display = 'block';
 
-            // Self-terminating sequence loop handling system cleanup closure seamlessly
             setTimeout(() => {
-                closeRSVP();
-            }, 3000);
+                dismissRSVPModal();
+            }, 2500);
         }
     </script>
 </body>
