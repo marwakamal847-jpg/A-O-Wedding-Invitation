@@ -9,26 +9,23 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --gold-primary: #c5a059;
-            --gold-dark: #8b6e3f;
-            --bg-cream: #f4f1ea;
-            --envelope-paper: #e6dfcf;
-            --text-dark: #4a4135;
-            --text-light: #7a6e5d;
+            --gold-classic: #b89763;
+            --parchment: #fdfbf7;
+            --envelope-vintage: #d3c8b7;
+            --text-color: #3e362e;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-cream);
-            color: var(--text-dark);
-            font-family: 'Cinzel', 'Amiri', serif;
+            background-color: var(--parchment);
+            color: var(--text-color);
+            font-family: 'Amiri', serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -36,165 +33,73 @@
             padding: 20px;
         }
 
-        /* Removed corner border elements as requested */
+        /* تم حذف كود الحدود الزاوية بالكامل */
 
-        .main-container {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
+        .main-container { width: 100%; max-width: 700px; display: flex; flex-direction: column; align-items: center; }
 
-        /* ✉️ Vintage Style Envelope */
+        /* ✉️ تصميم مظروف عتيق (Vintage Envelope) */
         .envelope-wrapper {
-            width: 100%;
-            max-width: 520px;
-            height: 360px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 50px;
-        }
-
-        .envelope-wrapper.hidden-envelope { opacity: 0; height: 0; margin: 0; pointer-events: none; }
-
-        .envelope {
-            width: 100%; height: 100%;
-            background: var(--envelope-paper);
-            border-radius: 2px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid #dcd5c0;
+            width: 100%; max-width: 450px; height: 300px; position: relative;
+            cursor: pointer; transition: 0.8s; margin: 50px 0;
+            background: var(--envelope-vintage);
+            border: 2px solid #b5a995;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
         }
 
         .envelope-flap {
             position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-            background: #dcd5c0;
+            background: #c5b9a5;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
-            z-index: 3; transition: transform 0.6s ease;
-            transform-origin: top;
+            transition: 0.6s; transform-origin: top;
         }
 
         .wax-seal {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px; height: 60px;
-            background: #a67c52;
+            width: 50px; height: 50px;
+            background: #8b6840;
             border-radius: 50%;
-            z-index: 4;
             display: flex; align-items: center; justify-content: center;
-            color: #dcd5c0; font-size: 1.2rem;
-            border: 2px solid #8b6e3f;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            color: #d3c8b7; border: 2px solid #5a452d;
         }
 
-        .click-hint-text {
-            position: absolute; bottom: -40px; width: 100%;
-            text-align: center; font-size: 0.8rem; letter-spacing: 3px;
-            color: var(--gold-dark); text-transform: uppercase;
+        .envelope-wrapper.hidden-envelope { opacity: 0; pointer-events: none; height: 0; margin: 0; }
+
+        /* 📜 تنسيق الكرت */
+        .invitation-card {
+            display: none; opacity: 0; text-align: center;
+            padding: 40px; border: 1px solid #e0d8cc;
+            background: white; width: 100%;
         }
+        .invitation-card.revealed { display: block; opacity: 1; transition: 1s; }
 
-        /* 📜 Main Invitation Card */
-        .invitation-card-main {
-            width: 100%; max-width: 680px;
-            background: #ffffff;
-            padding: 50px;
-            text-align: center;
-            display: none;
-            opacity: 0;
-            border: 1px solid #eee;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-        }
-
-        .invitation-card-main.revealed { display: block; opacity: 1; }
-
-        .basmala-text { font-size: 1.8rem; color: var(--gold-dark); margin-bottom: 20px; }
-        .quran-verse-ar { font-size: 1.3rem; line-height: 2; margin-bottom: 20px; }
-        .royal-names-title { font-family: 'Cinzel Decorative', serif; font-size: 2.5rem; color: var(--gold-dark); margin: 20px 0; }
-        .wedding-date-badge-box { font-size: 1.2rem; border-top: 1px solid var(--gold-primary); border-bottom: 1px solid var(--gold-primary); padding: 10px; display: inline-block; margin: 20px 0; }
-
-        /* Navigation and remaining sections */
-        .navigation-ribbon-bar { display: none; justify-content: center; gap: 20px; margin: 30px 0; }
-        .nav-item-btn { text-decoration: none; color: var(--text-light); font-size: 0.8rem; text-transform: uppercase; }
-        .grid-details-row { width: 100%; display: none; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .details-box-card { background: #fff; padding: 20px; border: 1px solid #eee; text-align: center; }
-        .rsvp-footer-action-area { display: none; text-align: center; margin: 40px 0; }
-        .trigger-rsvp-popup-btn { background: var(--gold-dark); color: #fff; padding: 12px 30px; border: none; cursor: pointer; }
-        
-        /* Popup Overlay */
-        .rsvp-popup-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .rsvp-popup-overlay.show-popup { display: flex; }
-        .popup-form-box { background: #fff; padding: 30px; width: 90%; max-width: 400px; }
-
-        @media (max-width: 768px) {
-            .grid-details-row { grid-template-columns: 1fr; }
-        }
+        .names { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--gold-classic); margin: 20px 0; }
+        .date { font-size: 1.4rem; border-top: 1px solid var(--gold-classic); padding-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-
-        <div class="envelope-wrapper" id="envelopeWrapper" onclick="executeEnvelopeOpening()">
-            <div class="envelope">
-                <div class="envelope-flap" id="envelopeFlapAnimation"></div>
-                <div class="wax-seal">
-                    <i class="fa-solid fa-heart"></i>
-                </div>
-            </div>
-            <div class="click-hint-text">إضغط لفتح الدعوة</div>
+        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnv()">
+            <div class="envelope-flap" id="flap"></div>
+            <div class="wax-seal"><i class="fa-solid fa-heart"></i></div>
         </div>
 
-        <div class="invitation-card-main" id="invitationCardMain">
-            <div class="top-invite-tag">You Are Invited</div>
-            <div class="basmala-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-            <div class="quran-verse-ar">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</div>
-            <div class="royal-names-title">ABDELAZIZ & OMNIA</div>
-            <div class="wedding-date-badge-box">18 JULY 2026</div>
-        </div>
-
-        <nav class="navigation-ribbon-bar" id="navigationRibbonBar">
-            <a href="#home-section" class="nav-item-btn">الرئيسية</a>
-            <a href="#story-section" class="nav-item-btn">قصة حبنا</a>
-            <a href="#venue-section" class="nav-item-btn">القاعة</a>
-        </nav>
-
-        <div class="grid-details-row" id="gridDetailsRow">
-            <div class="details-box-card" id="story-section"><h3>Our Story</h3></div>
-            <div class="details-box-card"><h3>The Date</h3></div>
-            <div class="details-box-card" id="venue-section"><h3>Venue</h3></div>
-        </div>
-
-        <div class="rsvp-footer-action-area" id="rsvp-section">
-            <button class="trigger-rsvp-popup-btn" onclick="toggleRSVPModal(true)">RSVP</button>
-        </div>
-    </div>
-
-    <div class="rsvp-popup-overlay" id="rsvpPopupOverlay">
-        <div class="popup-form-box">
-            <form onsubmit="handleFormSubmission(event)">
-                <input type="text" placeholder="الإسم الكريم" required style="width:100%; margin-bottom:10px;">
-                <button type="submit" class="trigger-rsvp-popup-btn" style="width:100%;">تأكيد الحضور</button>
-            </form>
+        <div class="invitation-card" id="card">
+            <div class="names">ABDELAZIZ & OMNIA</div>
+            <p>يتشرفان بدعوتكم لحضور حفل الزفاف</p>
+            <div class="date">18 JULY 2026</div>
         </div>
     </div>
 
     <script>
-        function executeEnvelopeOpening() {
-            document.getElementById('envelopeFlapAnimation').style.transform = 'rotateX(180deg)';
+        function openEnv() {
+            document.getElementById('flap').style.transform = 'rotateX(180deg)';
             setTimeout(() => {
                 document.getElementById('envelopeWrapper').classList.add('hidden-envelope');
-                document.getElementById('invitationCardMain').style.display = 'block';
-                document.getElementById('invitationCardMain').classList.add('revealed');
-                document.getElementById('navigationRibbonBar').style.display = 'flex';
-                document.getElementById('gridDetailsRow').style.display = 'grid';
-                document.getElementById('rsvp-section').style.display = 'block';
+                document.getElementById('card').classList.add('revealed');
             }, 600);
         }
-        function toggleRSVPModal(show) { document.getElementById('rsvpPopupOverlay').style.display = show ? 'flex' : 'none'; }
-        function handleFormSubmission(e) { e.preventDefault(); alert('تم التسجيل'); toggleRSVPModal(false); }
     </script>
 </body>
 </html>
